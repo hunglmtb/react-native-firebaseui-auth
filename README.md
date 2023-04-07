@@ -97,7 +97,22 @@ RN <= 0.59 only
 ## Usage
 
 ```javascript
-import Auth from 'react-native-firebaseui-auth';
+import Auth, {AuthEventEmitter, AuthEvents} from 'react-native-firebaseui-auth';
+
+...
+
+  componentDidMount() {
+    this.eventListener = AuthEventEmitter.addListener(
+      AuthEvents.AUTH_STATE_CHANGED,
+      event => {
+        console.log('user:', event.user);
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.eventListener.remove(); //Removes the listener
+  }
 
 ...
 
@@ -132,7 +147,7 @@ import Auth from 'react-native-firebaseui-auth';
 
 ...
 
-  Auth.delete().then(res => console.log(res));
+  Auth.deleteUser().then(res => console.log(res));
 
 ...
 ```
@@ -218,6 +233,15 @@ You can control whether new users can sign in or not by using the option `allowN
     ...
     allowNewEmailAccounts: false,
     requireDisplayName: false,
+  };
+```
+
+### Anonymous User upgrade Settings
+When an anonymous user signs in or signs up with a permanent account, the `autoUpgradeAnonymousUsers` option allows you to link the existing account (anonymous) with permanent account. This way the user can continue with what they were doing before signing up. By default this option is disabled.
+```javascript
+  const config = {
+    ...
+    autoUpgradeAnonymousUsers: true,
   };
 ```
 

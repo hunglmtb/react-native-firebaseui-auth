@@ -1,6 +1,11 @@
+import { NativeEventEmitter } from "react-native";
+
 export = RNFirebaseuiAuth;
 
 declare namespace RNFirebaseuiAuth {
+  type EventType =
+    | "AuthStateChanged";
+
   type User = {
     uid: string;
     displayName: string;
@@ -20,11 +25,18 @@ declare namespace RNFirebaseuiAuth {
     privacyPolicyUrl?: string;
     allowNewEmailAccounts?: boolean;
     requireDisplayName?: boolean;
+    autoUpgradeAnonymousUsers?: boolean;
   }
 
   export function signIn(config: Config): Promise<User>;
   export function getCurrentUser(): Promise<User|null>;
   export function signOut(): Promise<boolean>;
   export function getCurrentIdToken(): Promise<string|null>;
+  export function deleteUser(): Promise<boolean>;
 
+  export const AuthEventEmitter: NativeEventEmitter;
+
+  export const AuthEvents: {
+    AUTH_STATE_CHANGED: EventType;
+  };
 }
