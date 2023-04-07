@@ -1,6 +1,6 @@
 {
   "name": "react-native-firebaseui-auth-min",
-  "version": "0.2.26",
+  "version": "0.2.29",
   "description": "Easy login with FirebaseUi Auth",
   "author": "Oscar Justi <oijusti@gmail.com>",
   "main": "index.js",

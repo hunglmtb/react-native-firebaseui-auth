@@ -168,6 +168,23 @@ RCT_EXPORT_METHOD(getCurrentUser:(RCTPromiseResolveBlock)resolve
     resolve([NSNull null]);
 }
 
+RCT_EXPORT_METHOD(getCurrentIdToken:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    FIRUser *user = self.authUI.auth.currentUser;
+    if (user) {
+        [user getIDTokenWithCompletion:^(NSString *_Nullable resultString, NSError *_Nullable error) {
+            if (error) {
+                reject(ERROR_FIREBASE, @"getTokenWithCompletion user error", error);
+                return;
+            }
+            resolve(resultString);
+        }];
+    } else{
+        resolve([NSNull null]);
+    }
+}
+
 RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
